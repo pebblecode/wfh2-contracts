@@ -1,0 +1,192 @@
+FORMAT: 1A
+HOST: http://zoo1.keep.se:8181/
+
+# wfh2
+
+Working from home 2 lets an office track the remote working state for it's occupants.
+
+## Workers Collection [/workers]
+
+### GET
+
+Retrieve all workers
+
++ Response 200
+
+    + Body
+    
+            [
+                {
+                "email": "a@example.com",
+                "status": {
+                    "statusType": "InOffice",
+                    "statusDetails": "",
+                    "inOffice": false,
+                    "default": false
+                },
+                {
+                "email": "b@example.com",
+                "status": {
+                    "statusType": "Home",
+                    "statusDetails": "Home",
+                    "inOffice": false,
+                    "default": false
+                }   
+            ]
+            
+## Worker [/workers/{workerId}]
+
+Resources related to worker.
+
++ Model (application/json)
+        
+        {
+            "email": "user@example.com",
+            "status": {
+                "statusType": "InOffice",
+                "statusDetails": "Home",
+                "inOffice": false,
+                "default": false
+        }
+    
+    + Schema
+    
+            {
+                "type": "object",
+                "required": ["email", "status"],
+                "properties": {
+                    "email": {"type": "string"},
+                    "status": {"$ref": "#/dependencies/status"}
+                },
+                "dependencies": {
+                    "status": {
+                        "type": "object",
+                        "properties": {
+                            "statusType": {"enum": ["InOffice", "Home"]},
+                            "statusDetails": {"type": "string"},
+                            "inOffice": {"type": "boolean"},
+                            "default": {"type": "boolean"},
+                        },
+                        "required": ["statusType", "inOffice"]
+                    }
+                }
+            }
+        
+    
+
+### GET
+
+Get a worker
+
++ Parameters
+    + workerId: john%40example.com (string, required)
+
++ Response 200
+
+    [Worker][]
+
+
+
+## Location [/workers/{workerId}/location]
+
+Manage a worker's location
+
+### PUT
+
+Update a worker location
+
+This action allows you to set if someone is working from home or in the office.
+The statusDetails field is optional.
+
++ Parameters
+    + workerId: john%40example.com (string, required)
+    
+        The worker id for which to update the status
+
++ Request (application/json)
+
+            {
+                "location": "InOffice",
+                "details": "Working in Switzerland for the week"
+            }
+
+    + Schema
+    
+            {
+                "type": "object",
+                "required": [ "status"],
+                "properties": {
+                    "location": {
+                        "enum": ["InOffice", "OutOfOffice"]
+                    },
+                    "details": {"type": "string"}
+                },
+                "additionalProperties": false
+            }
+
++ Response 200
+
+
+
+## DefaultLocation [/workers/{workerId}/default_location]
+
+### PUT
+
+Set a worker's default location. The statusDetails field is optional.
+
++ Parameters
+
+    + workerId: john%40example.com (string, required)
+    
+        The worker id
+
++ Request (application/json)
+
+            {
+                "status": "InOffice",
+                "statusDetails": ""
+            }
+            
+    + Schema
+    
+            {
+                "type": "object",
+                "parameters": {
+                    "location": {"enum": ["InOffice", "OutOfOffice"]},
+                    "details": {"type": "string"}
+                },
+                "required": ["location"],
+                "additionalProperties": false
+            }
+            
++ Response 200
+
+## Worker set wfh slack [/workers/slack]
+
+### POST
+
++ Attributes
+    + token: secret (string, required) The authentication token
+    + team_id: T0001 (string, required)
+    + team_domain: pebblecode.com (string, required)
+    + channel_id: C2147483705 (string, required)
+    + channel_name: test (string, required)
+    + user_id: U2147483697 (string, required)
+    + user_name:  Steve (string, required)
+    + command: /hfw2 (string, required)
+    + text: don't like bacon (string)
+
++ Request (application/x-www-form-urlencoded)
+        
++ Response 200 (text/plain)
+
+        OK
+
+
+
+
+
+
+
+
+
