@@ -27,8 +27,8 @@ Retrieve all workers
                 {
                 "email": "b@example.com",
                 "status": {
-                    "statusType": "Home",
-                    "statusDetails": "Home",
+                    "statusType": "OutOfOffice",
+                    "statusDetails": "Slacking off",
                     "inOffice": false,
                     "default": false
                 }
@@ -44,7 +44,7 @@ Resources related to worker.
             "email": "user@example.com",
             "status": {
                 "statusType": "InOffice",
-                "statusDetails": "Home",
+                "statusDetails": "",
                 "inOffice": false,
                 "default": false
         }
@@ -62,7 +62,7 @@ Resources related to worker.
                     "status": {
                         "type": "object",
                         "properties": {
-                            "statusType": {"enum": ["InOffice", "Home"]},
+                            "statusType": {"enum": ["InOffice", "OutOfOffice"]},
                             "statusDetails": {"type": "string"},
                             "inOffice": {"type": "boolean"},
                             "default": {"type": "boolean"},
