@@ -21,7 +21,8 @@ Retrieve all workers
                 "name": "John Snow",
                 "status": {
                   "statusDetails": "",
-                  "statusType": "InOffice"
+                  "statusType": "InOffice",
+				  "isDefault": true
                 }
               },
               {
@@ -29,7 +30,8 @@ Retrieve all workers
                 "name": "Thyrion Lannister",
                 "status": {
                   "statusDetails": "",
-                  "statusType": "InOffice"
+                  "statusType": "InOffice",
+				  "isDefualt", false
                 }
               }
             ]
@@ -45,7 +47,8 @@ Resources related to worker.
             "name": "John Snow",
             "status": {
                 "statusType": "InOffice",
-                "statusDetails": ""
+                "statusDetails": "",
+				"isDefualt", true
         }
 
     + Schema
@@ -63,7 +66,8 @@ Resources related to worker.
                         "type": "object",
                         "properties": {
                             "statusType": {"enum": ["InOffice", "OutOfOffice"]},
-                            "statusDetails": {"type": "string"}
+                            "statusDetails": {"type": "string"},
+							"isDefault": {"type": "boolean"}
                         },
                         "required": ["statusType"]
                     }
